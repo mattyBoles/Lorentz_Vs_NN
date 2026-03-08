@@ -24,7 +24,7 @@ optimiser = torch.optim.AdamW(model.parameters(), lr=config['lr'])
 history   = train(model, config, loss_fn, optimiser, train_loader, val_loader)
 
 # --- Test ---
-preds, test_loss = test(model, loss_fn, test_loader)
+preds, test_loss = test(model, loss_fn, test_loader, config)
 print(f'Test Loss: {test_loss:.6f}')
 
 # --- Evaluate ---
