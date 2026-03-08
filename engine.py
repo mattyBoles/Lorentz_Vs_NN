@@ -38,7 +38,7 @@ def val_epoch(model, loss_fn, val_loader, config):
             x = x0
         for _ in range(k):
             x = model(x)
-        val_loss += loss_fn(x, target)
+        val_loss += loss_fn(x, target).item()
     return val_loss / len(val_loader)
 
 
