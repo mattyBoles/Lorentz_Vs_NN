@@ -25,6 +25,7 @@ def generate_data(config):
             data[idx, idy] = x0
             x0 = rk4(lorentz, h, x0, sigma, beta, rho)
             idy += 1
+            print(idy)
         idx += 1
 
     return data
