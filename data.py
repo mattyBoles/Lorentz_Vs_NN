@@ -14,9 +14,8 @@ def generate_data(config):
     data = np.zeros((n_samples,n_trajectory, 3))
 
     idx = 0
-    idy = 0
     for _ in range(n_samples):
-
+        idy = 0
         x0 = np.array([
             np.random.uniform(-15, 15),
             np.random.uniform(-15, 15),
