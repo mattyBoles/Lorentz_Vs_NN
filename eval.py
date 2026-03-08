@@ -46,6 +46,7 @@ def plot_sync(traj1, traj2, h, save_path='sync.png'):
 
 def plot_loss(history, save_path='loss.png'):
     fig, ax = plt.subplots()
+    history = history.to('cpu')
     ax.plot(history['train'], label='train')
     ax.plot(history['val'],   label='val')
     ax.set_xlabel('epoch')
