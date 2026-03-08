@@ -12,7 +12,7 @@ config = {
 
     # Data generation
     'n_samples': 100,
-    'n_trajectory': 3000,
+    'n_trajectory': 2999,
     'h': 0.01,
     'k': 5,
     
