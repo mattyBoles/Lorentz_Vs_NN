@@ -30,4 +30,4 @@ print(f'Test Loss: {test_loss:.6f}')
 # --- Evaluate ---
 evaluate(model, history, config, mean, std)
 
-torch.save(model.state_dict(), 'model.pth')
+# torch.save(model.state_dict(), 'model.pth')

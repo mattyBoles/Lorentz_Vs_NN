@@ -8,11 +8,13 @@ config = {
     'sigma': 10,
     'rho': 28,
     'beta': 8/3,
+    
 
     # Data generation
     'n_samples': 100,
     'n_trajectory': 3000,
     'h': 0.01,
+    
 
     # Train/val/test split
     'train_frac': 0.8,
