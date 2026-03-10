@@ -11,7 +11,7 @@ config = {
     
 
     # Data generation
-    'n_samples': 100,
+    'n_samples': 500,
     'n_trajectory': 3000,
     'h': 0.01,
     'k': 5,
@@ -22,9 +22,9 @@ config = {
     'val_frac': 0.9,
 
     # Training
-    'n_epochs': 1,
+    'n_epochs': 10,
     'batch_size': 256,
-    'lr': 1e-3,
+    'lr': 1e-4,
 
     # Eval
     'n_rollout_steps': 2999,

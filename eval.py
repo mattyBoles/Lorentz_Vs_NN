@@ -46,8 +46,6 @@ def plot_sync(traj1, traj2, h, save_path='sync.png'):
 
 def plot_loss(history, save_path='loss.png'):
     fig, ax = plt.subplots()
-    history['train'] = [epoch_loss.to('cpu') for epoch_loss in history['train']]
-    history['val'] = [epoch_loss.to('cpu') for epoch_loss in history['val']]
     ax.plot(history['train'], label='train')
     ax.plot(history['val'],   label='val')
     ax.set_xlabel('epoch')
@@ -61,8 +59,11 @@ def evaluate(model, history, config, mean, std):
     n_steps = config['n_rollout_steps']
     h = config['h']
 
-    ic1 =  [(config['ic1'][0] - mean[0])/std[0], (config['ic1'][1] - mean[1])/std[1], (config['ic1'][2] - mean[2])/std[2]]
-    ic2 =  [(config['ic2'][0] - mean[0])/std[0], (config['ic2'][1] - mean[1])/std[1], (config['ic2'][2] - mean[2])/std[2]]
+    mean_np = mean.numpy()
+    std_np  = std.numpy()
+
+    ic1 = (np.array(config['ic1']) - mean_np) / std_np
+    ic2 = (np.array(config['ic2']) - mean_np) / std_np
 
     # Rollouts
     traj1 = rollout(model, ic1, n_steps, device)
@@ -75,6 +76,6 @@ def evaluate(model, history, config, mean, std):
     # Plots
     plot_phase_portrait(traj1, traj2)
     plot_sync(traj1, traj2, h)
-    plot_loss(history)
+    # plot_loss(history)
 
     print('Evaluation plots saved.')
