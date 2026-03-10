@@ -15,20 +15,20 @@ train_loader, val_loader, test_loader, mean, std = get_loaders(config)
 
 # --- Model ---
 model = chaos_model().to(config['device'])
-# print(model)
-# print(f'Parameters: {sum(p.numel() for p in model.parameters()):,}')
+print(model)
+print(f'Parameters: {sum(p.numel() for p in model.parameters()):,}')
 
-# # --- Train ---
-# loss_fn   = torch.nn.MSELoss()
-# optimiser = torch.optim.AdamW(model.parameters(), lr=config['lr'])
-# history   = train(model, config, loss_fn, optimiser, train_loader, val_loader)
+# --- Train ---
+loss_fn   = torch.nn.MSELoss()
+optimiser = torch.optim.AdamW(model.parameters(), lr=config['lr'])
+history   = train(model, config, loss_fn, optimiser, train_loader, val_loader)
 
-# # --- Test ---
-# preds, test_loss = test(model, loss_fn, test_loader, config)
-# print(f'Test Loss: {test_loss:.6f}')
+# --- Test ---
+preds, test_loss = test(model, loss_fn, test_loader, config)
+print(f'Test Loss: {test_loss:.6f}')
 history = []
 # --- Evaluate ---
-model.load_state_dict(torch.load('./model.pth', map_location=torch.device('cpu')), strict=False)
+# model.load_state_dict(torch.load('./model.pth', map_location=torch.device('cpu')), strict=False)
 evaluate(model, history, config, mean, std)
 
 # torch.save(model.state_dict(), 'model.pth')

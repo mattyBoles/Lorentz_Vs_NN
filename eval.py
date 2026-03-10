@@ -76,6 +76,6 @@ def evaluate(model, history, config, mean, std):
     # Plots
     plot_phase_portrait(traj1, traj2)
     plot_sync(traj1, traj2, h)
-    # plot_loss(history)
+    plot_loss(history)
 
     print('Evaluation plots saved.')
