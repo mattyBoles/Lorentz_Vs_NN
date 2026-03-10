@@ -14,7 +14,7 @@ config = {
     'n_samples': 500,
     'n_trajectory': 3000,
     'h': 0.01,
-    'k': 5,
+    'k': 1,
     
 
     # Train/val/test split
