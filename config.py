@@ -22,7 +22,7 @@ config = {
     'val_frac': 0.9,
 
     # Training
-    'n_epochs': 100,
+    'n_epochs': 1,
     'batch_size': 256,
     'lr': 1e-4,
 

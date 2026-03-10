@@ -26,7 +26,6 @@ history   = train(model, config, loss_fn, optimiser, train_loader, val_loader)
 # --- Test ---
 preds, test_loss = test(model, loss_fn, test_loader, config)
 print(f'Test Loss: {test_loss:.6f}')
-history = []
 # --- Evaluate ---
 # model.load_state_dict(torch.load('./model.pth', map_location=torch.device('cpu')), strict=False)
 evaluate(model, history, config, mean, std)
