@@ -11,7 +11,7 @@ def generate_data(config):
     n_trajectory = config['n_trajectory']
     h = config['h']
 
-    data = np.zeros((n_samples,n_trajectory, 3))
+    data = np.zeros((n_samples,n_trajectory - 1, 3))
 
     idx = 0
     for _ in range(n_samples):

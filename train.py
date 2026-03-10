@@ -13,7 +13,7 @@ torch.manual_seed(42)
 # --- Data ---
 train_loader, val_loader, test_loader, mean, std = get_loaders(config)
 
-# --- Model ---
+# # --- Model ---
 model = chaos_model().to(config['device'])
 print(model)
 print(f'Parameters: {sum(p.numel() for p in model.parameters()):,}')
@@ -27,7 +27,8 @@ history   = train(model, config, loss_fn, optimiser, train_loader, val_loader)
 preds, test_loss = test(model, loss_fn, test_loader, config)
 print(f'Test Loss: {test_loss:.6f}')
 # --- Evaluate ---
-# model.load_state_dict(torch.load('./model.pth', map_location=torch.device('cpu')), strict=False)
+# history = []
+# model.load_state_dict(torch.load('./model(2).pth', map_location=torch.device('cpu')), strict=False)
 evaluate(model, history, config, mean, std)
 
 # torch.save(model.state_dict(), 'model.pth')

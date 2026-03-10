@@ -73,9 +73,12 @@ def evaluate(model, history, config, mean, std):
     traj1 = denormalise(traj1, mean, std)
     traj2 = denormalise(traj2, mean, std)
 
+    print(traj1[:5])
+    print(traj2[:5])
+
     # Plots
     plot_phase_portrait(traj1, traj2)
     plot_sync(traj1, traj2, h)
-    plot_loss(history)
+    #plot_loss(history)
 
     print('Evaluation plots saved.')

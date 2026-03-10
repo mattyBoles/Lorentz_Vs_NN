@@ -44,8 +44,8 @@ def generate_rk4(ic, n, h, sigma, beta, rho):
 traj1 = generate_rk4(c['ic1'], n, c['h'], c['sigma'], c['beta'], c['rho'])
 traj2 = generate_rk4(c['ic2'], n, c['h'], c['sigma'], c['beta'], c['rho'])
 
-print(traj1[:3,:3])
-print(traj2[:3,:3])
+print(traj1[:5,])
+print(traj2[:5,])
 # --- Phase portrait ---
 fig = plt.figure()
 ax  = fig.add_subplot(111, projection='3d')
