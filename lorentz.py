@@ -1,15 +1,5 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from config import config as c
-
-
-# --- Config ---
-n = c['n_rollout_steps']
-t     = np.arange(0, n * c['h'], c['h'])
-
-
-# --- Generate RK4 trajectories ---
-
 def lorentz(x_,sigma,beta,rho):
     x,y,z = x_
     dxdt = sigma * (y - x)
@@ -18,6 +8,11 @@ def lorentz(x_,sigma,beta,rho):
 
     return np.array([dxdt, dydt, dzdt])
 
+sigma = 10
+rho = 28
+beta = 8/3
+
+h = 0.01
 
 def rk4(f, h, x_, sigma, beta, rho):
     k1 = f(x_, sigma, beta, rho)
@@ -32,47 +27,41 @@ def rk4(f, h, x_, sigma, beta, rho):
 
 
     return x_
-def generate_rk4(ic, n, h, sigma, beta, rho):
-    traj = np.zeros((n, 3))
-    traj[0] = ic
-    for i in range(n - 1):
-        traj[i+1] = rk4(lorentz, h, traj[i], sigma, beta, rho)
-    return traj
 
+# Cell 1: setup
+n = 3000
+h = 0.01  # make sure h is defined
+x1, y1, z1 = [0]*n, [0]*n, [0]*n
+x1[0], y1[0], z1[0] = 0.1, 1.0, 0.0
 
-
-traj1 = generate_rk4(c['ic1'], n, c['h'], c['sigma'], c['beta'], c['rho'])
-traj2 = generate_rk4(c['ic2'], n, c['h'], c['sigma'], c['beta'], c['rho'])
-
-print(traj1[:6,])
-print(traj2[:6,])
-# --- Phase portrait ---
 fig = plt.figure()
-ax  = fig.add_subplot(111, projection='3d')
-ax.plot(traj1[:,0], traj1[:,1], traj1[:,2], linewidth=0.5, color='blue',   label='IC 1')
-ax.plot(traj2[:,0], traj2[:,1], traj2[:,2], linewidth=0.5, color='orange', label='IC 2')
-ax.set_xlabel('x')
-ax.set_ylabel('y')
-ax.set_zlabel('z')
-ax.legend()
-plt.savefig('Lorentz_Phase_Potrait.png')
-plt.close()
+ax = fig.add_subplot(111, projection='3d')
 
-# --- x(t) sync plot ---
-fig, ax = plt.subplots()
-ax.plot(t, traj1[:,0], color='blue',   label='IC 1')
-ax.plot(t, traj2[:,0], color='orange', label='IC 2')
-ax.set_xlabel('t')
-ax.set_ylabel('x')
-ax.legend()
-plt.savefig('Lorentz_Sync.png')
-plt.close()
+# Cell 2: first trajectory
+for i in range(n-1):
+    x1[i+1], y1[i+1], z1[i+1] = rk4(lorentz, h, np.array([x1[i], y1[i], z1[i]]), sigma, beta, rho)
+ax.plot(x1, y1, z1, linewidth=0.5, color='blue')
 
-# --- Separation ---
-separation = np.linalg.norm(traj2 - traj1, axis=1)
-fig, ax = plt.subplots()
-ax.plot(t, separation, color='black')
-ax.set_xlabel('t')
-ax.set_ylabel('separation')
-plt.savefig('Lorentz_Seperation.png')
+# Reset for second trajectory
+x2, y2, z2 = [0]*n, [0]*n, [0]*n
+x2[0], y2[0], z2[0] = 0.2, 1.0, 0.0
+
+# Cell 3: second trajectory
+for i in range(n-1):
+    x2[i+1], y2[i+1], z2[i+1] = rk4(lorentz, h, np.array([x2[i], y2[i], z2[i]]), sigma, beta, rho)
+ax.plot(x2, y2, z2, linewidth=0.5, color='orange')
+
+plt.savefig('plt1.png')
+plt.close('all')
+
+x1 = np.array(x1)
+x2 = np.array(x2)
+t = np.arange(0,30,0.01)
+fig = plt.figure()
+ax = fig.add_subplot(111)
+plt.plot(t,x1)
+plt.plot(t,x2)
+plt.savefig('plt2.png')
 plt.close()
+plt.plot(t, np.abs(x2-x1))
+plt.savefig('plt3.png')

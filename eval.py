@@ -6,7 +6,6 @@ import matplotlib.pyplot as plt
 def rollout(model, ic, n_steps, device):
     x0 = torch.tensor(ic, dtype=torch.float32).to(device)
     trajectory = []
-    trajectory.append(x0.cpu().numpy())
     model.eval()
     with torch.inference_mode():
         for _ in range(n_steps):
@@ -59,26 +58,17 @@ def evaluate(model, history, config, mean, std):
     n_steps = config['n_rollout_steps']
     h = config['h']
 
-    mean_np = mean.numpy()
-    std_np  = std.numpy()
-
-    ic1 = (np.array(config['ic1']) - mean_np) / std_np
-    ic2 = (np.array(config['ic2']) - mean_np) / std_np
-
     # Rollouts
-    traj1 = rollout(model, ic1, n_steps, device)
-    traj2 = rollout(model, ic2, n_steps, device)
+    traj1 = rollout(model, config['ic1'], n_steps, device)
+    traj2 = rollout(model, config['ic2'], n_steps, device)
 
     # Denormalise
     traj1 = denormalise(traj1, mean, std)
     traj2 = denormalise(traj2, mean, std)
 
-    print(traj1[:6])
-    print(traj2[:6])
-
     # Plots
     plot_phase_portrait(traj1, traj2)
     plot_sync(traj1, traj2, h)
-    #plot_loss(history)
+    plot_loss(history)
 
     print('Evaluation plots saved.')
