@@ -25,7 +25,7 @@ def val_epoch(model, loss_fn, val_loader, device):
     return val_loss / len(val_loader)
 
 
-def train(model, config, loss_fn, optimiser, train_loader, val_loader, device):
+def train(model, config, loss_fn, optimiser, train_loader, val_loader):
     history = {'train': [], 'val': []}
     n_epochs = config['n_epochs']
 
