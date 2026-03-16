@@ -1,5 +1,6 @@
-from torch import nn
+import torch.nn as nn
 import numpy
+from torchdiffeq import odeint
 
 class chaos_model(nn.Module):
   def __init__(self):
@@ -21,3 +22,19 @@ class chaos_model(nn.Module):
     x = self.fc3(x)
 
     return x
+
+
+class LorenzODE(nn.Module):
+  def __init__(self):
+    super().__init__()
+    self.net = nn.Sequential(
+      nn.Linear(3, 64),
+      nn.Tanh(),
+      nn.Linear(64, 64),
+      nn.Tanh(),
+      nn.Linear(64, 3)
+    )
+
+  def forward(self, t, x):
+    return self.net(x)
+

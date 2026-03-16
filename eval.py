@@ -45,8 +45,8 @@ def plot_sync(traj1, traj2, h, save_path='sync.png'):
 
 def plot_loss(history, save_path='loss.png'):
     fig, ax = plt.subplots()
-    ax.plot(history['train'], label='train')
-    ax.plot(history['val'],   label='val')
+    ax.plot(np.log(history['train']), label='train')
+    ax.plot(np.log(history['val']),   label='val')
     ax.set_xlabel('epoch')
     ax.set_ylabel('loss')
     ax.legend()
@@ -58,9 +58,14 @@ def evaluate(model, history, config, mean, std):
     n_steps = config['n_rollout_steps']
     h = config['h']
 
+    mean_np = mean.cpu().numpy()
+    std_np  = std.cpu().numpy()
+    ic1 = (np.array(config['ic1']) - mean_np) / std_np
+    ic2 = (np.array(config['ic2']) - mean_np) / std_np
+
     # Rollouts
-    traj1 = rollout(model, config['ic1'], n_steps, device)
-    traj2 = rollout(model, config['ic2'], n_steps, device)
+    traj1 = rollout(model, ic1, n_steps, device)
+    traj2 = rollout(model, ic2, n_steps, device)
 
     # Denormalise
     traj1 = denormalise(traj1, mean, std)
