@@ -14,7 +14,7 @@ torch.manual_seed(42)
 train_loader, val_loader, test_loader, mean, std = get_loaders(config)
 
 # --- Model ---
-model = LorenzODE().to(config['device'])
+model = chaos_model().to(config['device'])
 print(model)
 print(f'Parameters: {sum(p.numel() for p in model.parameters()):,}')
 

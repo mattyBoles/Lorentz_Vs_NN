@@ -5,8 +5,7 @@ def train_epoch(model, loss_fn, optimiser, train_loader, device):
     model.train()
     epoch_loss = 0
     for X_batch, y_batch in train_loader:
-        t_span = torch.tensor([0.0, 0.01]).to(device)
-        preds = odeint(model, X_batch, t_span)[-1]
+        preds = model(X_batch)
         loss = loss_fn(preds, y_batch)
         loss.backward()
         optimiser.step()
@@ -19,8 +18,7 @@ def val_epoch(model, loss_fn, val_loader, device):
     val_loss = 0
     with torch.inference_mode():
         for X_batch, y_batch in val_loader:
-            t_span = torch.tensor([0.0, 0.01]).to(device)
-            preds = odeint(model, X_batch, t_span)[-1]
+            preds = model(X_batch)
             val_loss += loss_fn(preds, y_batch).item()
     return val_loss / len(val_loader)
 
@@ -47,8 +45,7 @@ def test(model, loss_fn, test_loader, device):
     preds_all = []
     with torch.inference_mode():
         for X_batch, y_batch in test_loader:
-            t_span = torch.tensor([0.0, 0.01]).to(device)
-            preds = odeint(model, X_batch, t_span)[-1]
+            preds = model(X_batch)
             test_loss += loss_fn(preds, y_batch).item()
             preds_all.append(preds.cpu())
     test_loss /= len(test_loader)

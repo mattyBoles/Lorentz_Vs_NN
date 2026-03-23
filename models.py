@@ -6,7 +6,7 @@ class chaos_model(nn.Module):
   def __init__(self):
     super().__init__()
     self.fc1 = nn.Linear(in_features=3, out_features=64)
-    self.relu = nn.ReLU()
+    self.relu = nn.Tanh()
     self.dropout = nn.Dropout(0)
     self.fc2 = nn.Linear(in_features =64, out_features = 64)
     self.fc3 = nn.Linear(in_features=64, out_features = 3)
